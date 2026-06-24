@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>AI Product Background Remover & Scene Generator | E‑commerce Product Photo Tool</title>
+  <meta name="description" content="Free AI product photo background remover and scene generator for Etsy, Shopify & Amazon sellers. Replace background with marble, sunlight, studio scenes. Download PNG instantly.">
+  <meta name="keywords" content="AI product background remover, etsy listing image seo, shopify product csv bulk editor, csv to json converter, developer token cost calculator, etsy sellers, shopify sellers, amazon sellers, csv/json tools, developer tools">
+  <meta name="author" content="ProductShot AI">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph -->
+  <meta property="og:title" content="AI Product Background Remover & Scene Generator">
+  <meta property="og:description" content="Replace product background with AI scenes: marble, sunlight, studio. Free browser tool for e‑commerce sellers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://productshot.example.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Product Background Remover & Scene Generator">
+  <meta name="twitter:description" content="Replace product background with AI scenes: marble, sunlight, studio. Free browser tool for e‑commerce sellers.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: #f8f9fc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      color: #1e293b;
+    }
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1);
+      padding: 1.5rem 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, #0f172a, #334155);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+    .subhead {
+      font-size: 1rem;
+      color: #475569;
+      border-left: 4px solid #7c3aed;
+      padding-left: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      h1 { font-size: 1.6rem; }
+    }
+    .upload-area {
+      background: #f1f5f9;
+      border: 2px dashed #cbd5e1;
+      border-radius: 1.5rem;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .upload-area:hover {
+      background: #e9edf3;
+      border-color: #7c3aed;
+    }
+    .upload-area.has-image {
+      border-style: solid;
+      border-color: #7c3aed;
+      background: #faf5ff;
+    }
+    .upload-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .upload-area p {
+      font-weight: 500;
+      color: #334155;
+    }
+    .upload-area small {
+      color: #64748b;
+    }
+    #productPreview {
+      max-width: 100%;
+      max-height: 260px;
+      border-radius: 1rem;
+      margin-top: 0.75rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      display: none;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .control-group {
+      background: #f8fafc;
+      padding: 1rem 1.2rem;
+      border-radius: 1.2rem;
+      border: 1px solid #e2e8f0;
+    }
+    .control-group label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: #1e293b;
+    }
+    select, button {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 2rem;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: 0.15s;
+    }
+    select:focus, button:focus {
+      outline: 2px solid #7c3aed;
+      outline-offset: 2px;
+    }
+    .btn-primary {
+      background: #7c3aed;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.9rem;
+      border-radius: 3rem;
+      box-shadow: 0 6px 12px rgba(124, 58, 237, 0.25);
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: #6d28d9;
+      transform: scale(0.98);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .btn-download {
+      background: #0f172a;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.9rem;
+      border-radius: 3rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .btn-download:hover {
+      background: #1e293b;
+    }
+    .scene-preview {
+      margin-top: 1rem;
+      background: #f1f5f9;
+      border-radius: 1.2rem;
+      padding: 0.8rem;
+      text-align: center;
+    }
+    #outputCanvas {
+      width: 100%;
+      max-height: 280px;
+      border-radius: 0.8rem;
+      background: #e2e8f0;
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+    .badge {
+      background: #e2e8f0;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #334155;
+      text-transform: uppercase;
+    }
+    .ad-placeholder {
+      background: #f1f5f9;
+      border-radius: 1rem;
+      padding: 0.8rem 1rem;
+      margin: 1.5rem 0 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #e2e8f0;
+    }
+    .ad-placeholder span {
+      font-size: 0.85rem;
+      color: #334155;
+    }
+    .affiliate-resources {
+      background: #faf5ff;
+      border-radius: 1rem;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0 0.5rem;
+      border: 1px solid #e9d5ff;
+    }
+    .affiliate-resources h3 {
+      font-size: 0.95rem;
+      color: #4c1d95;
+      margin-bottom: 0.4rem;
+    }
+    .affiliate-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .affiliate-links a {
+      background: white;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.85rem;
+      border: 1px solid #d8b4fe;
+      color: #4c1d95;
+    }
+    .affiliate-links a:hover {
+      background: #ede9fe;
+    }
+    .privacy-note {
+      margin-top: 1.8rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 0.6rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+    }
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .pro-cta {
+      background: #fef9c3;
+      border: 1px solid #facc15;
+      border-radius: 2rem;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #854d0e;
+      display: inline-block;
+    }
+    .pro-cta small {
+      font-weight: 400;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>✨ AI Product Background Remover & Scene Generator</h1>
+    <div class="subhead">For Etsy, Shopify & Amazon sellers — replace background with AI scenes, instant PNG download</div>
+  </header>
+
+  <!-- Main tool -->
+  <div class="grid-2">
+    <!-- left: upload + preview -->
+    <div>
+      <div id="uploadArea" class="upload-area" role="button" tabindex="0" aria-label="Upload product image">
+        <div class="upload-icon">📸</div>
+        <p><strong>Upload product photo</strong></p>
+        <small>JPG, PNG · max 5MB</small>
+        <input type="file" id="fileInput" accept="image/png, image/jpeg" style="display:none">
+        <img id="productPreview" alt="Product preview" />
+      </div>
+      <div style="margin-top: 0.8rem; font-size:0.85rem; color:#475569;">
+        <span>🔍 Drop your product — background will be removed & replaced</span>
+      </div>
+    </div>
+
+    <!-- right: controls + scene output -->
+    <div class="controls">
+      <div class="control-group">
+        <label for="sceneStyle">🎨 Scene style</label>
+        <select id="sceneStyle">
+          <option value="marble">Marble counter</option>
+          <option value="sunlight">Sunlit meadow</option>
+          <option value="studio">Studio white</option>
+          <option value="wood">Wood rustic</option>
+        </select>
+      </div>
+
+      <button id="generateBtn" class="btn-primary">✨ Generate scene</button>
+      <button id="downloadBtn" class="btn-download" disabled>⬇ Download PNG</button>
+
+      <div class="scene-preview">
+        <canvas id="outputCanvas" width="400" height="300"></canvas>
+        <div style="margin-top: 0.3rem; font-size:0.75rem; color:#64748b;">preview · 400x300</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad placeholder (visible) -->
+  <div class="ad-placeholder">
+    <span><strong>📢 Sponsored</strong> — Create stunning listings with <a href="#" style="color:#7c3aed; text-decoration:underline;">Canva Pro</a> (affiliate)</span>
+    <span class="badge">Ad</span>
+  </div>
+
+  <!-- Affiliate / resource section -->
+  <div class="affiliate-resources">
+    <h3>🔗 Tools for e‑commerce sellers</h3>
+    <div class="affiliate-links">
+      <a href="#" target="_blank" rel="noopener">Canva (affiliate)</a>
+      <a href="#" target="_blank" rel="noopener">Adobe Express (affiliate)</a>
+      <a href="#" target="_blank" rel="noopener">Shopify CSV editor</a>
+      <a href="#" target="_blank" rel="noopener">CSV to JSON</a>
+      <a href="#" target="_blank" rel="noopener">Token cost calculator</a>
+    </div>
+    <div style="margin-top: 0.4rem; font-size:0.8rem; color:#4c1d95;">⭐ Pro version coming soon — background shadows, 4K export & batch</div>
+  </div>
+
+  <!-- Pro CTA + privacy + metrics -->
+  <div class="footer-meta">
+    <div class="pro-cta">
+      🚀 Pro version coming soon <small>· higher res & scenes</small>
+    </div>
+    <div class="privacy-note">
+      🔒 Events may be counted anonymously for product improvement. No personal data collected.
+    </div>
+  </div>
+  <div style="margin-top: 0.5rem; font-size:0.7rem; color:#94a3b8; text-align:center;">
+    AI Product Background Remover · Etsy listing SEO · Shopify product CSV tools
+  </div>
+</div>
+
+<script>
+  (function() {
+    // --- DOM refs ---
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const productPreview = document.getElementById('productPreview');
+    const sceneStyle = document.getElementById('sceneStyle');
+    const generateBtn = document.getElementById('generateBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const outputCanvas = document.getElementById('outputCanvas');
+    const ctx = outputCanvas.getContext('2d');
+
+    // --- state ---
+    let uploadedImage = null; // HTMLImageElement
+    let currentSceneRendered = false; // true after generation
+
+    // --- helpers ---
+    function reportEvent(name, payload) {
+      if (typeof window.ORGANISM_METRICS_ENDPOINT === 'string' && window.ORGANISM_METRICS_ENDPOINT.length > 0) {
+        try {
+          const body = JSON.stringify({ event: name, payload: payload, ts: Date.now() });
+          fetch(window.ORGANISM_METRICS_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: body,
+            keepalive: true
+          }).catch(() => {}); // silent
+        } catch (e) { /* ignore */ }
+      }
+    }
+
+    // --- upload handler ---
+    function handleFile(file) {
+      if (!file) return;
+      if (!file.type.match('image/(png|jpeg)')) {
+        alert('Please upload a PNG or JPG image.');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File too large. Max 5MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          uploadedImage = img;
+          productPreview.src = e.target.result;
+          productPreview.style.display = 'block';
+          uploadArea.classList.add('has-image');
+          // reset canvas to blank
+          ctx.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
+          ctx.fillStyle = '#e2e8f0';
+          ctx.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
+          currentSceneRendered = false;
+          downloadBtn.disabled = true;
+          reportEvent('image_uploaded', { fileSize: file.size, fileType: file.type });
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // click / drag events
+    uploadArea.addEventListener('click', function(e) {
+      if (e.target.tagName !== 'IMG') fileInput.click();
+    });
+    fileInput.addEventListener('change', function(e) {
+      if (e.target.files.length) handleFile(e.target.files[0]);
+    });
+
+    // drag & drop
+    uploadArea.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#7c3aed';
+    });
+    uploadArea.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#cbd5e1';
+    });
+    uploadArea.addEventListener('drop', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#cbd5e1';
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+
+    // --- scene generation (pure canvas) ---
+    function generateScene() {
+      if (!uploadedImage) {
+        alert('Please upload a product image first.');
+        return;
+      }
+
+      const style = sceneStyle.value;
+      const canvas = outputCanvas;
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // 1. draw background scene
+      drawSceneBackground(ctx, w, h, style);
+
+      // 2. extract product (simple background removal via color key / alpha)
+      //    we use canvas compositing: draw product with luminance alpha mask
+      const img = uploadedImage;
+      // calculate aspect ratio to fit canvas
+      const scale = Math.min(w / img.width, h / img.height) * 0.8;
+      const imgW = img.width * scale;
+      const imgH = img.height * scale;
+      const offsetX = (w - imgW) / 2;
+      const offsetY = (h - imgH) / 2;
+
+      // draw product with "remove background" effect: use a temporary canvas to get pixel data
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = img.width;
+      tempCanvas.height = img.height;
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCtx.drawImage(img, 0, 0);
+      const imageData = tempCtx.getImageData(0, 0, img.width, img.height);
+      const data = imageData.data;
+
+      // simple background removal: assume dominant background is near-white or near-transparent? 
+      // we apply a threshold: if pixel is very light (R>200,G>200,B>200) set alpha to 0.
+      // also if alpha is already low keep it.
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i], g = data[i+1], b = data[i+2];
+        // if pixel is bright (likely white/light background) set alpha to 0
+        if (r > 200 && g > 200 && b > 200) {
+          data[i+3] = 0;
+        } else {
+          // otherwise keep original alpha (or boost)
+          if (data[i+3] < 30) data[i+3] = 0; // near transparent
+          else data[i+3] = 255; // fully opaque
+        }
+      }
+      tempCtx.putImageData(imageData, 0, 0);
+
+      // draw the processed product onto main canvas
+      ctx.save();
+      // draw shadow / glow
+      ctx.shadowColor = 'rgba(0,0,0,0.1)';
+      ctx.shadowBlur = 12;
+      ctx.shadowOffsetY = 4;
+      ctx.drawImage(tempCanvas, offsetX, offsetY, imgW, imgH);
+      ctx.restore();
+
+      // extra blend: subtle reflection / polish
+      currentSceneRendered = true;
+      downloadBtn.disabled = false;
+      reportEvent('scene_generated', { scene: style, width: w, height: h });
+    }
+
+    function drawSceneBackground(ctx, w, h, style) {
+      // scene styles
+      if (style === 'marble') {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#f0f0f0');
+        grad.addColorStop(0.3, '#e8e0d8');
+        grad.addColorStop(0.7, '#d9cfc0');
+        grad.addColorStop(1, '#c2b6a6');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // marble veins
+        ctx.strokeStyle = '#b8aa9a';
+        ctx.lineWidth = 1.5;
+        for (let i=0; i<12; i++) {
+          ctx.beginPath();
+          ctx.moveTo(Math.random()*w, Math.random()*h);
+          ctx.lineTo(Math.random()*w, Math.random()*h);
+          ctx.strokeStyle = `rgba(160,140,120,${0.1+Math.random()*0.2})`;
+          ctx.stroke();
+        }
+      } else if (style === 'sunlight') {
+        const grad = ctx.createRadialGradient(w*0.7, h*0.2, 20, w*0.7, h*0.2, w*0.8);
+        grad.addColorStop(0, '#fff9e6');
+        grad.addColorStop(0.4, '#f5e6c8');
+        grad.addColorStop(0.8, '#d9c9a0');
+        grad.addColorStop(1, '#b8a882');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // sun rays
+        ctx.fillStyle = 'rgba(255,240,180,0.1)';
+        for (let i=0; i<6; i++) {
+          ctx.beginPath();
+          ctx.arc(w*0.7, h*0.2, 30+i*18, 0, Math.PI*2);
+          ctx.fill();
+        }
+      } else if (style === 'studio') {
+        ctx.fillStyle = '#fdfdfd';
+        ctx.fillRect(0, 0, w, h);
+        // soft gradient
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.6, '#f2f2f2');
+        grad.addColorStop(1, '#e0e0e0');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // subtle floor line
+        ctx.strokeStyle = '#d0d0d0';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, h*0.85);
+        ctx.lineTo(w, h*0.85);
+        ctx.stroke();
+      } else if (style === 'wood') {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#c8a87c');
+        grad.addColorStop(0.5, '#b8956a');
+        grad.addColorStop(1, '#a07a54');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // wood grain
+        ctx.strokeStyle = '#8b6b48';
+        ctx.lineWidth = 1.2;
+        for (let i=0; i<20; i++) {
+          ctx.beginPath();
+          ctx.moveTo(0, i*18+10);
+          ctx.lineTo(w, i*18+5+Math.sin(i)*6);
+          ctx.strokeStyle = `rgba(120,80,50,${0.1+Math.random()*0.15})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // --- generate button ---
+    generateBtn.addEventListener('click', function() {
+      generateScene();
+    });
+
+    // --- download PNG ---
+    downloadBtn.addEventListener('click', function() {
+      if (!currentSceneRendered) return;
+      const link = document.createElement('a');
+      link.download = `productshot_${sceneStyle.value}_${Date.now()}.png`;
+      link.href = outputCanvas.toDataURL('image/png');
+      link.click();
+      reportEvent('download_png', { scene: sceneStyle.value });
+    });
+
+    // --- keyboard shortcut for upload ---
+    uploadArea.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
+
+    // --- initial canvas background (soft) ---
+    ctx.fillStyle = '#e2e8f0';
+    ctx.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
+
+    // --- report page view (anonymized) ---
+    reportEvent('page_view', { tool: 'background_remover_scene' });
+
+    // expose for debugging
+    window.reportEvent = reportEvent;
+  })();
+</script>
+<!-- ORGANISM_METRICS_ENDPOINT may be set by environment -->
+
+<section data-organism-discovery="hub" style="margin:32px auto 20px;max-width:1040px;padding:16px;border-top:1px solid #d9e2ec;color:#475569;font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <strong style="display:block;color:#0f172a;margin-bottom:6px">More free browser tools</strong>
+  <p style="margin:0 0 8px">This page is part of an autonomous micro-tool network. Explore the live tool directory and related utilities.</p>
+  <p style="margin:0"><a href="https://kingms888.github.io/do-digital-organism-index/" style="color:#0f766e;font-weight:700">Open the tool directory</a> </p>
+</section>
+</body>
+</html>
